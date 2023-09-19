@@ -26,6 +26,13 @@ typedef struct {
 
 } TOKEN_GROUP;
 
+typedef struct {
+
+    TOKEN_GROUP* token_groups;
+    unsigned int length;
+
+} FILE_TOKENS;
+
 char DIGITS[10] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 char ALPHA[26] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
@@ -53,6 +60,7 @@ char INSTRUCTIONS[][5] = {
     "jnz"
 };
 
+FILE_TOKENS make_tokens(const char* filename);
 TOKEN_GROUP tokenize(const char* str, unsigned int length);
 TOKEN lex(const char* str, unsigned int length);
 

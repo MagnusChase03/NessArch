@@ -65,6 +65,34 @@ int is_instruction(const char* str) {
     return 0;
 }
 
+FILE_TOKENS make_tokens(const char* filename) {
+
+    FILE_TOKENS tokens;
+    FILE* file = fopen(filename, "r");
+
+    TOKEN_GROUP token_groups[1000];
+    char buffer[100];
+    char* read = fgets(buffer, sizeof(buffer), file);
+    while (read != NULL) {
+        if (strlen(buffer) == 1 && buffer[strlen(buffer) - 1] == '\n') {
+        } else if (buffer[strlen(buffer) - 1] == '\n') {
+            token_groups[tokens.length] = tokenize(buffer, strlen(buffer) - 1);
+        } else {
+            token_groups[tokens.length] = tokenize(buffer, strlen(buffer));
+        }
+        tokens.length += 1;
+        read = fgets(buffer, sizeof(buffer), file);
+    }
+
+    tokens.token_groups = (TOKEN_GROUP*) malloc(sizeof(TOKEN_GROUP) * tokens.length);
+    for (int i = 0; i < tokens.length; i++) {
+        tokens.token_groups[i] = token_groups[i];
+    }
+
+    return tokens;
+
+}
+
 TOKEN_GROUP tokenize(const char* str, unsigned int length) {
     TOKEN_GROUP tokens;
 
@@ -164,16 +192,5 @@ TOKEN lex(const char* str, unsigned int length) {
     }
 
     lex_error(str);
-
-}
-
-int main() {
-
-    char instruction[] = "test: jz test";
-    TOKEN_GROUP tokens = tokenize(instruction, strlen(instruction));
-
-    for (int i = 0; i < tokens.length; i++) {
-        printf("[TOKEN] %d\n", tokens.tokens[i].token_type);
-    }
 
 }
