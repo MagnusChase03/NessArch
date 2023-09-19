@@ -7,3 +7,8 @@ test: add ax bx
 help:
     sub dx cx
     mov ax 0b10
+xor ax bx
+or cx dx
+and dx cx
+push ax
+pop bx
