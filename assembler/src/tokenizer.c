@@ -79,6 +79,7 @@ int is_instruction(const char* str) {
 
 FILE_TOKENS make_tokens(const char* filename) {
     FILE_TOKENS tokens;
+    tokens.length = 0;
     FILE* file = fopen(filename, "r");
 
     TOKEN_GROUP token_groups[1000];

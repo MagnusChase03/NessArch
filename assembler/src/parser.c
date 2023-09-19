@@ -182,8 +182,14 @@ void expression(TOKEN_GROUP tokens) {
     parser_error();
 }
 
-int main() {
-    FILE_TOKENS tokens = make_tokens("./src/test.ebasm");
+int main(int argc, char** argv) {
+
+    if (argc < 2) {
+        printf("[USAGE] ./ebasm <filepath>\n");
+        return 1;
+    }
+
+    FILE_TOKENS tokens = make_tokens(argv[1]);
     assemble(tokens);
     return 0;
 }
