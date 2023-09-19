@@ -4,7 +4,6 @@
 typedef enum {
 
     BIN_IMMIDIATE,
-    HEX_IMMIDIATE,
     REGISTER,
     INSTRUCTION,
     LABEL,
@@ -15,6 +14,7 @@ typedef enum {
 typedef struct {
 
     TOKEN_TYPE token_type;
+    char value[16];
     unsigned int length;
 
 } TOKEN;

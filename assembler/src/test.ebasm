@@ -1,4 +1,4 @@
-mov bx 0x0f
+mov bx 0b11
 
 test: add ax bx
     cmp ax bx

@@ -7,9 +7,7 @@
 char DIGITS[10] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 char ALPHA[26] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
-char HEX_PREFIX[3] = "0x";
 char BIN_PREFIX[3] = "0b";
-
 char LABEL_END = ':';
 
 int NUM_REGISTERS = 4;
@@ -50,20 +48,6 @@ int is_digit(char x) {
 
 int is_alpha(char x) {
     for (int i = 0; i < sizeof(ALPHA); i++) {
-        if (ALPHA[i] == x) {
-            return 1;
-        }
-    }
-
-    return 0;
-}
-
-int is_hex(char x) {
-    if (is_digit(x)) {
-        return 1;
-    }
-
-    for (int i = 0; i < 6; i++) {
         if (ALPHA[i] == x) {
             return 1;
         }
@@ -165,6 +149,7 @@ TOKEN_GROUP tokenize(const char* str, unsigned int length) {
 TOKEN lex(const char* str, unsigned int length) {
     TOKEN token;
     token.length = length;
+    strcpy(token.value, str);
 
     if (is_alpha(str[0])) {
 
@@ -191,7 +176,7 @@ TOKEN lex(const char* str, unsigned int length) {
             return token;
         }
 
-    } else if (str[0] == '0' && length >= 3) {
+    } else if (str[0] == '0' && length == 4) {
 
         if (str[1] == 'b') {
 
@@ -202,17 +187,6 @@ TOKEN lex(const char* str, unsigned int length) {
             }
 
             token.token_type = BIN_IMMIDIATE;
-            return token;
-
-        } else if (str[1] == 'x') {
-
-            for (int i = 2; i < length; i++) {
-                if (!is_hex(str[i])) {
-                    lex_error(str);
-                }
-            }
-
-            token.token_type = HEX_IMMIDIATE;
             return token;
 
         }
