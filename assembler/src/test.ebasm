@@ -1,5 +1,9 @@
 mov bx 0b11
-
+not bx
 test: add ax bx
     cmp ax bx
     jz test
+    j help
+help:
+    sub dx cx
+    mov ax 0b10

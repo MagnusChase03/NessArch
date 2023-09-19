@@ -21,6 +21,7 @@ char INSTRUCTIONS[][5] = {
     "and",
     "or",
     "xor",
+    "not",
     "push",
     "pop",
     "cmp",
