@@ -3,7 +3,7 @@
 
 #include "./tokenizer.h"
 
-void assemble(FILE_TOKENS tokens);
+void assemble(FILE_TOKENS tokens, const char* filepath);
 void parse(FILE_TOKENS tokens);
 void statement(TOKEN_GROUP tokens);
 void expression(TOKEN_GROUP tokens);

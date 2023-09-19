@@ -103,6 +103,7 @@ FILE_TOKENS make_tokens(const char* filename) {
         tokens.token_groups[i] = token_groups[i];
     }
 
+    fclose(file);
     return tokens;
 
 }

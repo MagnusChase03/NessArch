@@ -90,7 +90,7 @@ unsigned char offset_to(const char* str) {
 
 }
 
-void assemble(FILE_TOKENS tokens) {
+void assemble(FILE_TOKENS tokens, const char* filepath) {
 
     parse(tokens);
 
@@ -108,6 +108,8 @@ void assemble(FILE_TOKENS tokens) {
             line_index += 1;
         }
     }
+
+    FILE* file = fopen(filepath, "w");
 
     line_index = 0;
     for (int i = 0; i < tokens.length; i++) {
@@ -130,10 +132,13 @@ void assemble(FILE_TOKENS tokens) {
         }
         if (tokens.token_groups[i].length > 1) {
             line_index += 1;
-            printf("%b\n", buffer);
+            fputc(buffer, file);
         }
 
     }
+
+    fclose(file);
+
 }
 
 void parse(FILE_TOKENS tokens) {
@@ -184,12 +189,12 @@ void expression(TOKEN_GROUP tokens) {
 
 int main(int argc, char** argv) {
 
-    if (argc < 2) {
-        printf("[USAGE] ./ebasm <filepath>\n");
+    if (argc < 3) {
+        printf("[USAGE] ./ebasm <filepath> <output_filepath>\n");
         return 1;
     }
 
     FILE_TOKENS tokens = make_tokens(argv[1]);
-    assemble(tokens);
+    assemble(tokens, argv[2]);
     return 0;
 }
