@@ -104,7 +104,6 @@ void assemble(FILE_TOKENS tokens) {
             label_line[label_index] = line_index;
             label_index += 1;
         }
-
         if (tokens.token_groups[i].length > 1) {
             line_index += 1;
         }
