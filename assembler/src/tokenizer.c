@@ -4,6 +4,33 @@
 #include <stdio.h>
 #include <string.h>
 
+char DIGITS[10] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+char ALPHA[26] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+
+char HEX_PREFIX[3] = "0x";
+char BIN_PREFIX[3] = "0b";
+
+char LABEL_END = ':';
+
+int NUM_REGISTERS = 4;
+char REGISTERS[][3] = {"ax", "bx", "cx", "dx"};
+
+int NUM_INSTRUCTIONS = 12;
+char INSTRUCTIONS[][5] = {
+    "mov",
+    "add",
+    "sub",
+    "and",
+    "or",
+    "xor",
+    "push",
+    "pop",
+    "cmp",
+    "j",
+    "jz",
+    "jnz"
+};
+
 void lex_error(const char* str) {
 
     printf("[LEX ERROR] %s\n", str);
@@ -66,7 +93,6 @@ int is_instruction(const char* str) {
 }
 
 FILE_TOKENS make_tokens(const char* filename) {
-
     FILE_TOKENS tokens;
     FILE* file = fopen(filename, "r");
 
@@ -75,6 +101,8 @@ FILE_TOKENS make_tokens(const char* filename) {
     char* read = fgets(buffer, sizeof(buffer), file);
     while (read != NULL) {
         if (strlen(buffer) == 1 && buffer[strlen(buffer) - 1] == '\n') {
+            read = fgets(buffer, sizeof(buffer), file);
+            continue;
         } else if (buffer[strlen(buffer) - 1] == '\n') {
             token_groups[tokens.length] = tokenize(buffer, strlen(buffer) - 1);
         } else {
