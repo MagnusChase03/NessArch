@@ -32,7 +32,7 @@ char INSTRUCTIONS[][5] = {
 
 void lex_error(const char* str) {
 
-    printf("[LEX ERROR] %s\n", str);
+    printf("[LEX ERROR] Unknown token %s\n", str);
     exit(1);
 
 }
