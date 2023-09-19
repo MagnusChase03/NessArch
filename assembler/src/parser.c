@@ -69,12 +69,8 @@ unsigned char binary_str_to_binary(const char* str) {
 }
 
 void assemble(FILE_TOKENS tokens) {
-    for (int i = 0; i < tokens.length; i++) {
-        token_index = 0;
-        statement(tokens.token_groups[i]);
-        line_index += 1;
-    }
 
+    parse(tokens);
     for (int i = 0; i < tokens.length; i++) {
         unsigned char buffer = 0b00000000;
         if (tokens.token_groups[i].tokens[0].token_type == INSTRUCTION) {
@@ -94,6 +90,7 @@ void assemble(FILE_TOKENS tokens) {
             }
 
         } else if (tokens.token_groups[i].tokens[0].token_type == LABEL) {
+
             buffer += instruction_to_binary(tokens.token_groups[i].tokens[1].value);
             if (tokens.token_groups[i].tokens[2].token_type == REGISTER) {
                 buffer += register_to_binary(tokens.token_groups[i].tokens[2].value) << 2;
@@ -107,9 +104,18 @@ void assemble(FILE_TOKENS tokens) {
             } else if (tokens.token_groups[i].tokens[2].token_type == LABEL_JUMP) {
 
             }
+
         }
 
-        printf("%c", buffer);
+        printf("%b\n", buffer);
+    }
+}
+
+void parse(FILE_TOKENS tokens) {
+    for (int i = 0; i < tokens.length; i++) {
+        token_index = 0;
+        statement(tokens.token_groups[i]);
+        line_index += 1;
     }
 }
 
