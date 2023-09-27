@@ -13,6 +13,11 @@ char INSTRUCTIONS[][5] = {"mov", "add", "sub",
                             "not", "push", "pop",
                             "cmp", "j", "jnz", "jz"};
 
+void lex_error(const char* msg) {
+    printf("\033[1;31mUnknown token: %s\n\033[1;0m", msg);
+    exit(1);
+}
+
 int is_alpha(char c) {
     int ascii = (int) c;
     return (ascii >= 97 && ascii <= 122) || (ascii >= 65 && ascii <= 90);
@@ -21,6 +26,11 @@ int is_alpha(char c) {
 int is_digit(char c) {
     int ascii = (int) c;
     return (ascii >= 48 && ascii <= 57);
+}
+
+int is_hex(char c) {
+    int ascii = (int) c;
+    return (ascii >= 48 && ascii <= 57) || (ascii >= 65 && ascii <= 70);
 }
 
 int is_register(const char* str) {
@@ -62,16 +72,40 @@ Token lex(const char* str) {
                 token.type = LABEL;
                 return token;
             } else if (!is_alpha(str[i])) {
-                printf("\033[1;31mUnknown token: %s\n\033[1;0m", str);
-                exit(1);
+                lex_error(str);
             }
         }
 
         token.type = LABEL_CALL;
 
+    } else if (str[0] == '0' && token.length >= 3) {
+        
+        if (str[1] == 'b') {
+            
+            for (int i = 2; i < token.length; i++) {
+                if (str[i] != '0' && str[i] != '1') {
+                    lex_error(str);
+                }
+            }
+
+            token.type = BINARY;
+            return token;
+
+        } else if (str[1] == 'x') {
+
+            for (int i = 2; i < token.length; i++) {
+                if (!is_hex(str[i])) {
+                    lex_error(str);
+                }
+            }
+
+            token.type = HEX;
+            return token;
+
+        }
+
     } else {
-        printf("\033[1;31mUnknown token: %s\n\033[1;0m", str);
-        exit(1);
+        lex_error(str);
     }
 
     return token;

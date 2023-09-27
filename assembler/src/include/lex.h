@@ -24,6 +24,7 @@ typedef struct {
 
 int is_alpha(char c);
 int is_digit(char c);
+int is_hex(char c);
 int is_register(const char* str);
 int is_instruction(const char* str);
 

@@ -29,6 +29,11 @@ int main() {
     TEST(is_instruction("help") != 1);
     TEST(is_instruction("ax") != 1);
 
+    TEST(is_hex('0') == 1);
+    TEST(is_hex('9') == 1);
+    TEST(is_hex('F') == 1);
+    TEST(is_hex('E') == 1);
+
     Token token = lex("ax");
     TEST(token.type == REGISTER);
     token = lex("ds");
@@ -45,4 +50,8 @@ int main() {
     TEST(token.type == LABEL_CALL);
     token = lex("hello:");
     TEST(token.type == LABEL);
+    token = lex("0x0FEDBA15");
+    TEST(token.type == HEX);
+    token = lex("0b0101011");
+    TEST(token.type == BINARY);
 }
