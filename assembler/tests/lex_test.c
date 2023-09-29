@@ -41,4 +41,7 @@ int main() {
     TEST(tokens.tokens[1].type == DATA);
     TEST(tokens.tokens[2].type == NUMBER);
 
+    FileTokens file_tokens = lex_file("test.sic");
+    TEST(file_tokens.length == 2);
+
 }

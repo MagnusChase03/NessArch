@@ -27,11 +27,19 @@ typedef struct {
 
 } TokenGroup;
 
+typedef struct {
+
+    TokenGroup* token_groups;
+    int length;
+
+} FileTokens;
+
 int is_alpha(char x);
 int is_digit(char x);
 int is_register(const char* str);
 
 Token lex(const char* str);
 TokenGroup lex_line(const char* str);
+FileTokens lex_file(const char* filepath);
 
 #endif

@@ -8,7 +8,7 @@ int REGISTER_LENGTH = 4;
 char REGISTERS[][3] = {"ax", "bx", "cx", "dx"};
 
 void lex_error(const char* str) {
-    printf("\033[1;31mUnknown token: %s\033[1;0m\n", str);
+    printf("\033[1;31mUnknown token: <%s>\033[1;0m\n", str);
     exit(1);
 }
 
@@ -106,6 +106,33 @@ TokenGroup lex_line(const char* str) {
     }
     Token token = lex(buffer); 
     tokens.tokens[token_index] = token; 
+
+    return tokens;
+
+}
+
+FileTokens lex_file(const char* filepath) {
+
+    FileTokens tokens;
+    tokens.length = 0;
+    FILE* file = fopen(filepath, "r");
+
+    TokenGroup token_groups[256];
+    char buffer[100];
+    char* res = fgets(buffer, 100, file);
+    while (res != NULL) {
+        if (buffer[strlen(buffer) - 1] == '\n') {
+            buffer[strlen(buffer) - 1] = '\0';
+        }
+        token_groups[tokens.length] = lex_line(buffer);
+        tokens.length += 1; 
+        res = fgets(buffer, 100, file);
+    }
+
+    tokens.token_groups = (TokenGroup*) malloc(sizeof(TokenGroup) * tokens.length);
+    for (int i = 0; i < tokens.length; i++) {
+        tokens.token_groups[i] = token_groups[i];
+    }
 
     return tokens;
 

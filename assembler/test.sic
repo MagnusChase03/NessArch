@@ -1,0 +1,2 @@
+loop: sub ax tmp loop
+tmp: .data 1
