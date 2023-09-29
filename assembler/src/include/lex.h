@@ -6,7 +6,9 @@ typedef enum {
     INSTRUCTION,
     REGISTER,
     LABEL,
-    LABEL_CALL
+    LABEL_CALL,
+    DATA,
+    NUMBER
 
 } Token_Type;
 
@@ -26,6 +28,7 @@ typedef struct {
 } TokenGroup;
 
 int is_alpha(char x);
+int is_digit(char x);
 int is_register(const char* str);
 
 Token lex(const char* str);

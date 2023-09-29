@@ -17,6 +17,11 @@ int is_alpha(char x) {
     return tmp >= 97 && tmp <=122;
 }
 
+int is_digit(char x) {
+    int tmp = (int) x;
+    return tmp >= 48 && tmp <=57;
+}
+
 int is_register(const char* str) {
 
     for (int i = 0; i < REGISTER_LENGTH; i++) {
@@ -39,7 +44,9 @@ Token lex(const char* str) {
         token.type = REGISTER;
     } else if (strcmp(str, "sub") == 0) {
         token.type = INSTRUCTION;
-    } else {
+    } else if (strcmp(str, ".data") == 0) {
+        token.type = DATA;
+    } else if (is_alpha(str[0])) {
         for (int i = 0; i < token.length; i++) {
             if (i > 0 && i == token.length - 1 && str[i] == ':') {
                 token.type = LABEL;
@@ -49,6 +56,13 @@ Token lex(const char* str) {
             }
         }
         token.type = LABEL_CALL;
+    } else {
+        for (int i = 0; i < token.length; i++) {
+            if (!is_digit(str[i])) {
+                lex_error(str);
+            }
+        }
+        token.type = NUMBER;
     }
 
     return token;
