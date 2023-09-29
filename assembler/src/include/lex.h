@@ -5,10 +5,6 @@ typedef enum {
 
     INSTRUCTION,
     REGISTER,
-    BINARY,
-    HEX,
-    OPEN_SQUARE,
-    CLOSE_SQUARE,
     LABEL,
     LABEL_CALL
 
@@ -22,12 +18,17 @@ typedef struct {
 
 } Token;
 
-int is_alpha(char c);
-int is_digit(char c);
-int is_hex(char c);
+typedef struct {
+
+    Token* tokens;
+    int length;
+
+} TokenGroup;
+
+int is_alpha(char x);
 int is_register(const char* str);
-int is_instruction(const char* str);
 
 Token lex(const char* str);
+TokenGroup lex_line(const char* str);
 
 #endif
